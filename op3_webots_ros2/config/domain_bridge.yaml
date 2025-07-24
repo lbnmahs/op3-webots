@@ -1,0 +1,31 @@
+name: robocup_bridge
+topics:
+  /game_controller/return_data:
+    type: game_controller_msgs/msg/GameControlReturnData
+    from_domain: 1
+    to_domain: 0
+
+  /game_controller/return_data:
+    type: game_controller_msgs/msg/GameControlReturnData
+    from_domain: 2
+    to_domain: 0
+
+  /game_controller/return_data:
+    type: game_controller_msgs/msg/GameControlReturnData
+    from_domain: 3
+    to_domain: 0
+
+  /game_controller/control_data:
+    type: game_controller_msgs/msg/GameControlData
+    from_domain: 0
+    to_domain: 1
+
+  /game_controller/control_data:
+    type: game_controller_msgs/msg/GameControlData
+    from_domain: 0
+    to_domain: 2
+
+  /game_controller/control_data:
+    type: game_controller_msgs/msg/GameControlData
+    from_domain: 0
+    to_domain: 3

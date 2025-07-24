@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>op3_webots_ros2</name>
+  <version>0.0.0</version>
+  <description>
+    A package for op3 webots simulation with ros2
+  </description>
+  <license>Apache-2.0</license>
+  <author email="milos.nikolic@spes.ai">Milos</author>
+  <maintainer email="milos.nikolic@spes.ai">Milos</maintainer>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>ament_index_cpp</depend>
+  <depend>rclcpp</depend>
+  <depend>geometry_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>webots_ros2_driver</depend>
+  <depend>robotis_controller_msgs</depend>
+  <depend>op3_action_module_msgs</depend>
+  <depend>op3_walking_module_msgs</depend>
+  <depend>op3_online_walking_module_msgs</depend>
+  <depend>dynamixel_sdk</depend>
+  <depend>robotis_framework_common</depend>
+  <depend>robotis_device</depend>
+  <depend>robotis_controller</depend>
+  <depend>robotis_math</depend>
+  <depend>op3_kinematics_dynamics</depend>
+  <depend>op3_balance_control</depend>
+  <depend>open_cr_module</depend>
+  <depend>op3_base_module</depend>
+  <depend>op3_head_control_module</depend>
+  <depend>op3_walking_module</depend>
+  <depend>op3_action_module</depend>
+  <depend>op3_direct_control_module</depend>
+  <depend>op3_online_walking_module</depend>
+  <depend>op3_tuning_module</depend>
+  <depend>op3_tuning_module_msgs</depend>
+  <depend>domain_bridge</depend>
+  
+  <exec_depend>op3_localization</exec_depend>
+  
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
