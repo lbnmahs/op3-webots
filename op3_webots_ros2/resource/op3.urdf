@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<robot name="OP3 Webots">
+  <!-- Motors & joints -->
+
+  <!-- ros2_control hardware plugin -->
+  <ros2_control name="WebotsControl" type="system">
+    <hardware>
+      <plugin>webots_ros2_control::Ros2ControlSystem</plugin>
+    </hardware>
+
+    <!-- Example joint control interface -->
+    <joint name="r_sho_pitch">
+      <state_interface name="position"/>
+      <command_interface name="position"/>
+    </joint>
+    <!-- Repeat for all 20 joints -->
+
+  </ros2_control>
+
+</robot>
