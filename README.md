@@ -301,7 +301,7 @@ source ~/robotis_ws/install/setup.bash
 
 ```bash
 # 1) Webots (opens GUI; make sure robot controller field is 'extern')
-webots src/op3-webots/op3_webots_ros2/worelds/field.wbt
+webots src/op3-webots/op3_webots_ros2/worlds/field.wbt
 ```
 Webots should load, including the OP3 robot, waiting to connect to the external controller.  In the Webots console you should now see:
 
