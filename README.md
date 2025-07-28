@@ -30,7 +30,7 @@ This is a work in progress...
 
 ---
 
-## Lesson 1 – Environment & Workspace Setup
+# Lesson 1 – Environment & Workspace Setup
 
 **Learning Goals**
 
@@ -120,18 +120,18 @@ This is a work in progress...
 
 ---
 
-\## Lesson 2 – First Launch in Webots
+# Lesson 2 – First Launch in Webots
 
-\*\*Learning Goals\*\*
+**Learning Goals**
 
-\- Start the OP3 Webots world with a provided launch file.
+* Start the OP3 Webots world with a provided launch file.
 
-\- Recognise when nodes start too early (timing issues).
+* Recognise when nodes start too early (timing issues).
 
-\*\*Concepts\*\*: Launch files, processes, temp folders (\`/tmp/webots\`), \`TimerAction\`.
+**Concepts**: Launch files, processes, temp folders (`/tmp/webots`), `TimerAction`.
 
 
-### Big‑picture architecture
+## Big‑picture architecture
 
 The tree structure below shows the contents of your ROS2 workspace once you have
 built the packages.
@@ -393,7 +393,7 @@ published to the topic.  When you see the message you will need the details of t
 ros2 topic echo /robotis/status
 ```
 
-### Use the action module to stand up
+## Use the action module to stand up
 
 ```bash
 ros2 node list | grep action
@@ -406,29 +406,141 @@ ros2 topic list | grep action
 
 int32     page_num
 string..  joint_name_array
-
-
-ros2 topic pub --once /robotis/action/page_num std_msgs/msg/Int32 "data: 1"
-ros2 topic pub --once /robotis/action/start_action op3_action_module_msgs/msg/StartAction "{page_number: 1}"
-
-
-ros2 topic pub --once /robotis/action/start_action \
-op3_action_module_msgs/msg/StartAction \
-"{page_num: 1, joint_name_array: []}"
-
 ```
 
-### Switch control module to walking
+## Enable `action_module` control for joints
+
+Before we can use the Action Module to run motions, we have to enable that as the
+control module applied to particular joints.  We can watch the topic
+`/robotis/present_joint_ctrl_modules`, each of the 20 Dynamixel motors has a joint
+name, and then a control module is associated with each joint.
+
+The control module is one of:
+* `base_module`
+* `action_module`
+* `head_control_module`
+* `direct_control_module`.
 
 ```bash
-❯ ros2 topic pub --once /robotis/set_control_mode std_msgs/String \
-  "data: walking_module"
-publisher: beginning loop
-publishing #1: std_msgs.msg.String(data='walking_module')
+❯ ros2 topic echo /robotis/present_joint_ctrl_modules
+
+joint_name:
+- head_pan
+- head_tilt
+- l_ank_pitch
+- l_ank_roll
+- l_el
+- l_hip_pitch
+- l_hip_roll
+- l_hip_yaw
+- l_knee
+- l_sho_pitch
+- l_sho_roll
+- r_ank_pitch
+- r_ank_roll
+- r_el
+- r_hip_pitch
+- r_hip_roll
+- r_hip_yaw
+- r_knee
+- r_sho_pitch
+- r_sho_roll
+module_name:
+- base_module
+- base_module
+- base_module
+- base_module
+- base_module
+- base_module
+- base_module
+- base_module
+- base_module
+- base_module
+- base_module
+- base_module
+- base_module
+- base_module
+- base_module
+- base_module
+- base_module
+- base_module
+- base_module
+- base_module
+---
 
 ```
 
-## problems with python?
+To enable `action_module` control:
+
+```bash
+ros2 topic pub --once /robotis/enable_ctrl_module std_msgs/msg/String "{data: 'action_module'}"
+```
+
+Then you should onfirm in the `present_joint_ctrl_modules` topic that all joints are
+controlled by the action module.
+
+```bash
+
+ros2 topic pub --once /robotis/action/page_num std_msgs/msg/Int32 "{data: 1}"
+
+```
+
+
+| Page Num | Page Title     | Description                               |
+| :------: | -----------    | ----------------------------------------- |
+|      1   | stand up       | Initial standing pose                     |
+|      4   | thank you      | Thank you (bow)                           |
+|      9   | walk ready     | Walk ready position                       |
+|     15   | sit down       | kneedling sit down                        |
+|     23   | yes come       | stand up right arm gestures come          |
+|     27   | oops           | right arm taps bowed head twice           |
+|     60   | keeper ready   | arms and legs spreaed                     | 
+|     61   | defence right  | defence to right                          |
+|     62   | defence left   | defence to left                           |
+|     80   | init pose      |  standing ready, slightly higher than walk ready    |
+|    120   | left kick      | kick with left leg (do walk ready first)  |
+|    121   | right kick     | high kick with right leg (do walk ready first, still falls) |
+|    122   | get up front   | get up from lying on front                |
+|    123   | get up back    | get up from lying on back                 |
+|    202   | roll back      | quite aggressive roll onto back           |
+|    204   | look far(left) | look far slightly left                    |
+|    126   | push up        | push up and stand up                      |
+|     -2   | break          | break  |
+|     -1   | stop           | stop   |
+
+
+Looking at these motions, some of there are quite aggressive, be careful when
+attempting on real robot.
+
+## Switch control module head control
+
+We can turn head by controlling the `head_pan` and `head_tilt` joints. Start by
+enabling `head_control_module` on the joints
+
+```bash
+ros2 topic pub --once /robotis/set_joint_ctrl_modules robotis_controller_msgs/msg/JointCtrlModule "{joint_name: ['head_pan', 'head_tilt'], module_name: ['head_control_module', 'head_control_module']}"
+```
+
+Then you can specify position for the motors in the range [-1, 1] with:
+
+```bash
+ros2 topic pub --once /robotis/head_control/set_joint_states sensor_msgs/msg/JointState "{name: ['head_pn', 'head_tilt'], position:[0.4,0.4]}"
+```
+
+>Note: these commands must be on a single line, any changes to the formatting could
+>affect how it runs.
+
+**Checkpoints**
+
+* You can use the action_module to stand up, 
+* and head control modules to 
+* Want more depth? Check the official ROS 2 tutorials on "Creating a package" and the Packages overview in the ROS 2 docs.
+* Students can launch Webots (even just the default world)
+to confirm it runs.
+
+**Troubleshooting**
+
+# Problems with python?
 
 ```bash
  ~/stride/robotis_ws ··········································· 08:46:31
