@@ -291,7 +291,8 @@ op3-webots
 ## Launch the simulator, robot and control nodes manually
 
 The steps below assume that the current working directory is the ROS workspace, i.e.
-`~/robotis_ws`.  In every new terminal make sure that you source both the ros core
+`~/robotis_ws`. Instead of using the launch file, we will load the nodes manually in
+different terminal windows. In every new terminal make sure that you source both the ros core
 files and your workspace files.  If you created aliases, then use those.  
 
 ```bash
@@ -301,9 +302,9 @@ source ~/robotis_ws/install/setup.bash
 
 ### Launch the simulator:
 
+Open the Webots GUI, in the world file, make sure robot controller field is 'extern'.
 
 ```bash
-# 1) Webots (opens GUI; make sure robot controller field is 'extern')
 webots src/op3-webots/op3_webots_ros2/worlds/field.wbt
 ```
 Webots should load, including the OP3 robot, waiting to connect to the external controller.  In the Webots console you should now see:
@@ -313,9 +314,9 @@ INFO: 'ROBOTIS_OP3_0' extern controller: Waiting for local or remote connection 
 ```
 ### Connect the external controller to webots
 
-```bash
+Open theextern controller in another terminal.  This is when it pays to use TMUX.
 
-# 2) Extern controller (in another terminal)
+```bash
 export WEBOTS_CONTROLLER_URL=tcp://localhost:1234/ROBOTIS_OP3_0
 ros2 run op3_webots_ros2 op3_extern_controller
 ```
