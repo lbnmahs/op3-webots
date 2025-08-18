@@ -72,6 +72,7 @@ install(DIRECTORY
   images
   protos
   worlds
+  config
   DESTINATION share/${PROJECT_NAME}/
 )
 
