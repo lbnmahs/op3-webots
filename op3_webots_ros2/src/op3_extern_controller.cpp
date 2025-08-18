@@ -107,7 +107,7 @@ void OP3ExternController::initialize(std::string gain_file_path)
   gyro_->enable(time_step_ms_);
   acc_->enable(time_step_ms_);
   iu_->enable(time_step_ms_);
-  // camera_->enable(time_step_ms_);
+  camera_->enable(time_step_ms_);
 
   // initialize image_data_ and camera_info
   image_data_.header.stamp = this->get_clock()->now();
