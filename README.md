@@ -74,12 +74,16 @@ This is a work in progress...
 
 4. **Launch the robot in Webots**:
 
-    ```bash
-    # install the ros webots package for jazzy 
-    sudo apt-get install ros-jazzy-webots-ros2
+    Ensure that you have `ros-jazzy-webots-ros2` installed.
 
-    # launch the OP3 robot in webots
-    ros2 launch op3_webots_ros2 robot_launch.py
+    ```bash
+    sudo apt-get install ros-jazzy-webots-ros2
+    ```
+    Now launch the OP3 robot, controller and op3 manager in webots with the following
+    ros2 command.
+
+    ```bash
+    ros2 launch op3_webots_ros2 robot_and_manager.launch.py
     ```
 
 5. **Investigate ros2 pkg commands**:
@@ -100,9 +104,8 @@ This is a work in progress...
 
 **Troubleshooting**
 
-* Missing deps → run `rosdep` again.
+* Missing deps → run `rosdep` again from the the top level ros workspace folder.
     ```bash
-    # from the the top level ros workspace folder
     rosdep install --from-paths src --ignore-src -r -y
     ```
 * Build errors → read the first error line; comment with full text and ask for help.
